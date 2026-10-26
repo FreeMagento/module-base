@@ -38,4 +38,4 @@ Keep `name` and `version` in your package's `composer.json`; that's what the reg
 ## Licence
 
 MIT. Made by [FreeMagento](https://freemagento.co.uk), a Mentalworkz Ltd project.
--
+--
