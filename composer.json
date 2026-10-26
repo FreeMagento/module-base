@@ -1,0 +1,28 @@
+{
+  "name": "freemagento/module-base",
+  "description": "FreeMagento Base - shared foundation for FreeMagento extensions: installed-module registry, update notifications and the FreeMagento admin page. Required by every FreeMagento package.",
+  "type": "magento2-module",
+  "license": "MIT",
+  "keywords": ["magento2", "hyva", "freemagento"],
+  "homepage": "https://github.com/freemagento/module-base",
+  "support": {
+    "issues": "https://github.com/freemagento/module-base/issues",
+    "source": "https://github.com/freemagento/module-base",
+    "docs": "https://freemagento.co.uk/docs"
+  },
+  "authors": [
+    { "name": "FreeMagento (Mentalworkz Ltd)", "email": "support@freemagento.co.uk", "homepage": "https://freemagento.co.uk" }
+  ],
+  "require": {
+    "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+    "magento/framework": "*",
+    "magento/module-backend": "*",
+    "magento/module-config": "*",
+    "magento/module-admin-notification": "*",
+    "magento/module-store": "*"
+  },
+  "autoload": {
+    "files": ["registration.php"],
+    "psr-4": { "FreeMagento\\Base\\": "" }
+  }
+}

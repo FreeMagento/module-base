@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <!-- minute is randomised per install at runtime (see Cron\CheckUpdates) so installs don't all call home at once -->
+        <job name="freemagento_base_check_updates" instance="FreeMagento\Base\Cron\CheckUpdates" method="execute">
+            <schedule>17 */6 * * *</schedule>
+        </job>
+    </group>
+</config>

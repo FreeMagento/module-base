@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="FreeMagento_Base::freemagento" title="FreeMagento" module="FreeMagento_Base" sortOrder="90" resource="FreeMagento_Base::freemagento"/>
+        <add id="FreeMagento_Base::extensions" title="Extensions &amp; updates" module="FreeMagento_Base" sortOrder="10" parent="FreeMagento_Base::freemagento" action="freemagento/extensions/index" resource="FreeMagento_Base::extensions"/>
+        <add id="FreeMagento_Base::settings" title="Settings" module="FreeMagento_Base" sortOrder="90" parent="FreeMagento_Base::freemagento" action="adminhtml/system_config/edit/section/freemagento_base" resource="FreeMagento_Base::config"/>
+    </menu>
+</config>

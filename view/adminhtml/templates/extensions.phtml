@@ -1,0 +1,85 @@
+<?php
+/**
+ * FreeMagento > Extensions & updates: installed FreeMagento packages, versions, available updates, licence status.
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+declare(strict_types=1);
+
+/** @var \FreeMagento\Base\ViewModel\Extensions $vm */
+$vm = $block->getData('view_model');
+$rows = $vm->getRows();
+$checkedAt = $vm->getLastCheckedAt();
+$formKey = $block->getBlockHtml('formkey');
+?>
+<div class="fm-base-extensions">
+    <div class="admin__data-grid-header" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <p style="margin:0;color:#6d6d6d;">
+            <?php if (!$vm->isUpdateCheckEnabled()): ?>
+                <?= $escaper->escapeHtml(__('Update checks are turned off.')) ?>
+                <a href="<?= $escaper->escapeUrl($vm->getSettingsUrl()) ?>"><?= $escaper->escapeHtml(__('Settings')) ?></a>
+            <?php elseif ($checkedAt): ?>
+                <?= $escaper->escapeHtml(__('Feed checked %1.', date('j M Y H:i', $checkedAt))) ?>
+            <?php else: ?>
+                <?= $escaper->escapeHtml(__('The FreeMagento feed has not been reached yet - installed versions only.')) ?>
+            <?php endif; ?>
+            <?php if (!$vm->hasLicenceKey()): ?>
+                &middot; <?= $escaper->escapeHtml(__('No licence key set (only needed for Pro packages).')) ?>
+                <a href="<?= $escaper->escapeUrl($vm->getSettingsUrl()) ?>"><?= $escaper->escapeHtml(__('Add one')) ?></a>
+            <?php endif; ?>
+        </p>
+        <form method="post" action="<?= $escaper->escapeUrl($vm->getCheckUrl()) ?>" style="margin:0;">
+            <?= /* @noEscape */ $formKey ?>
+            <button type="submit" class="action-secondary"><?= $escaper->escapeHtml(__('Check for updates now')) ?></button>
+        </form>
+    </div>
+    <div class="admin__data-grid-wrap">
+        <table class="data-grid">
+            <thead>
+                <tr>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Module')) ?></th>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Package')) ?></th>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Installed')) ?></th>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Latest')) ?></th>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Status')) ?></th>
+                    <th class="data-grid-th"><?= $escaper->escapeHtml(__('Licence')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($rows as $row): ?>
+                <tr>
+                    <td><strong><?= $escaper->escapeHtml($row['module']) ?></strong></td>
+                    <td><code><?= $escaper->escapeHtml($row['package'] ?: '-') ?></code></td>
+                    <td><?= $escaper->escapeHtml($row['installed'] ?: '-') ?></td>
+                    <td><?= $escaper->escapeHtml($row['latest'] ?: '-') ?></td>
+                    <td>
+                        <?php if ($row['update_available']): ?>
+                            <span class="grid-severity-<?= $row['security'] ? 'critical' : 'major' ?>"><span><?= $escaper->escapeHtml($row['security'] ? __('Security update') : __('Update available')) ?></span></span>
+                            <?php if ($row['url']): ?> <a href="<?= $escaper->escapeUrl($row['url']) ?>" target="_blank" rel="noopener"><?= $escaper->escapeHtml(__('Release notes')) ?></a><?php endif; ?>
+                        <?php elseif ($row['latest']): ?>
+                            <span class="grid-severity-notice"><span><?= $escaper->escapeHtml(__('Up to date')) ?></span></span>
+                        <?php else: ?>
+                            <span style="color:#6d6d6d;"><?= $escaper->escapeHtml(__('Unknown')) ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($row['licence'] === '' || $row['licence'] === 'free'): ?>
+                            <span style="color:#6d6d6d;"><?= $escaper->escapeHtml(__('Free')) ?></span>
+                        <?php else: ?>
+                            <?= $escaper->escapeHtml(ucfirst($row['licence'])) ?><?= $row['licence_until'] ? ' &middot; ' . $escaper->escapeHtml(__('updates until %1', $row['licence_until'])) : '' ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php if (!$rows): ?>
+                <tr><td colspan="6"><?= $escaper->escapeHtml(__('No FreeMagento packages found.')) ?></td></tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <p style="margin-top:1rem;color:#6d6d6d;font-size:1.2rem;">
+        <?= $escaper->escapeHtml(__('Update a package with')) ?> <code>composer update &lt;package&gt; &amp;&amp; bin/magento setup:upgrade</code>.
+        <?= $escaper->escapeHtml(__('Pro packages need the FreeMagento Composer repository and your account credentials in auth.json.')) ?>
+        <a href="https://freemagento.co.uk/docs/installation" target="_blank" rel="noopener"><?= $escaper->escapeHtml(__('Docs')) ?></a>
+    </p>
+</div>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="freemagento" translate="label" sortOrder="200">
+            <label>FreeMagento</label>
+        </tab>
+        <section id="freemagento_base" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Base &amp; updates</label>
+            <tab>freemagento</tab>
+            <resource>FreeMagento_Base::config</resource>
+            <group id="account" translate="label" type="text" sortOrder="10" showInDefault="1">
+                <label>FreeMagento account</label>
+                <field id="licence_key" translate="label comment" type="obscure" sortOrder="10" showInDefault="1">
+                    <label>Licence key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment>From My Account › Licences on freemagento.co.uk. Only needed for Pro packages; free packages work without it.</comment>
+                </field>
+            </group>
+            <group id="updates" translate="label" type="text" sortOrder="20" showInDefault="1">
+                <label>Update checks</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" canRestore="1">
+                    <label>Check for updates</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Fetches the FreeMagento package feed every few hours and compares it with the installed versions.</comment>
+                </field>
+                <field id="notify_admin" translate="label" type="select" sortOrder="20" showInDefault="1" canRestore="1">
+                    <label>Show update notices in the admin inbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="send_instance_report" translate="label comment" type="select" sortOrder="30" showInDefault="1" canRestore="1">
+                    <label>Include installed versions in the request</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Sends the store's base domain, Magento version and the list of installed FreeMagento packages with their versions, so the feed can tell you about security releases that affect you. Nothing else is sent. Turn off to make an anonymous request.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="feed_url" translate="label" type="text" sortOrder="40" showInDefault="1" canRestore="1">
+                    <label>Feed URL</label>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <freemagento_base>
+            <updates>
+                <enabled>1</enabled>
+                <feed_url>https://freemagento.co.uk/feed/packages</feed_url>
+                <notify_admin>1</notify_admin>
+                <send_instance_report>1</send_instance_report>
+            </updates>
+            <account>
+                <licence_key></licence_key>
+            </account>
+        </freemagento_base>
+    </default>
+</config>
